@@ -123,29 +123,25 @@ function render(list){
 }
 
 function normalize(text) {
-return String(text)
-.toLowerCase()
+  return String(text)
 
+    // ひらがな→カタカナ
+    .replace(/[ぁ-ん]/g, s =>
+      String.fromCharCode(s.charCodeAt(0) + 0x60)
+    )
 
-// 全角英数字→半角
-.replace(/[Ａ-Ｚａ-ｚ０-９]/g, s =>
-  String.fromCharCode(s.charCodeAt(0) - 0xFEE0)
-)
+    .toLowerCase()
 
-// 全角シャープ
-.replace(/＃/g, "#")
+    // 全角英数字→半角
+    .replace(/[Ａ-Ｚａ-ｚ０-９]/g, s =>
+      String.fromCharCode(s.charCodeAt(0) - 0xFEE0)
+    )
 
-// 全角m
-.replace(/ｍ/g, "m")
-.replace(/Ｍ/g, "m")
-
-// 全角スペース
-.replace(/　/g, " ")
-
-// スペース除去
-.replace(/\s+/g, "");
-
-
+    .replace(/＃/g, "#")
+    .replace(/ｍ/g, "m")
+    .replace(/Ｍ/g, "m")
+    .replace(/　/g, " ")
+    .replace(/\s+/g, "");
 }
 
 render(routes);
