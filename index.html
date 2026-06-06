@@ -2,28 +2,134 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>瑞牆ワイドクラックトポ</title>
+
 <style>
-body{
-    max-width:900px;
-    margin:auto;
-    font-family:sans-serif;
-    padding:20px;
+body {
+  font-family: sans-serif;
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  background: #fafafa;
 }
-img{
-    max-width:100%;
+
+h1 {
+  font-size: 28px;
+}
+
+#search {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin: 20px 0;
+  box-sizing: border-box;
+}
+
+.card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.card img {
+  max-width: 100%;
+  border: 1px solid #ddd;
+}
+
+.card h2 {
+  margin-top: 0;
 }
 </style>
 </head>
+
 <body>
 
 <h1>瑞牆ワイドクラックトポ</h1>
 
-<p>GitHub Pages テストページです。</p>
+<p>ルート名・エリア名・グレード・カムサイズなどで検索できます。</p>
 
-<p>
-<a href="topo/">トポフォルダを見る</a>
-</p>
+<input type="text" id="search" placeholder="例：#6、5.10、roof、001">
+
+<div id="results"></div>
+
+<script>
+const pages = [
+  {
+    title: "001",
+    area: "瑞牆",
+    grade: "",
+    tags: "001 topo",
+    image: "topo/001.jpg"
+  },
+  {
+    title: "002",
+    area: "瑞牆",
+    grade: "",
+    tags: "002 topo",
+    image: "topo/002.jpg"
+  },
+  {
+    title: "003",
+    area: "瑞牆",
+    grade: "",
+    tags: "003 topo",
+    image: "topo/003.jpg"
+  },
+  {
+    title: "004",
+    area: "瑞牆",
+    grade: "",
+    tags: "004 topo",
+    image: "topo/004.jpg"
+  },
+  {
+    title: "005",
+    area: "瑞牆",
+    grade: "",
+    tags: "005 topo",
+    image: "topo/005.jpg"
+  }
+];
+
+function showPages(list) {
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+
+  list.forEach(page => {
+    results.innerHTML += `
+      <div class="card">
+        <h2>${page.title}</h2>
+        <p>
+          <b>エリア:</b> ${page.area}<br>
+          <b>グレード:</b> ${page.grade}<br>
+          <b>タグ:</b> ${page.tags}
+        </p>
+        <a href="${page.image}" target="_blank">
+          <img src="${page.image}" alt="${page.title}">
+        </a>
+      </div>
+    `;
+  });
+}
+
+showPages(pages);
+
+document.getElementById("search").addEventListener("input", function() {
+  const keyword = this.value.toLowerCase();
+
+  const filtered = pages.filter(page =>
+    page.title.toLowerCase().includes(keyword) ||
+    page.area.toLowerCase().includes(keyword) ||
+    page.grade.toLowerCase().includes(keyword) ||
+    page.tags.toLowerCase().includes(keyword)
+  );
+
+  showPages(filtered);
+});
+</script>
 
 </body>
 </html>
