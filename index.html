@@ -24,7 +24,7 @@ input{width:100%;padding:12px;font-size:16px;margin:20px 0;box-sizing:border-box
 <script>
 const routes = [
 ["かぐや","アトムエリア はごろも岩 1st Floor","10d","40m","0.2 - 4","南","topo/atomarea_001.jpg"],
-["飛天","アトムエリア はごろも岩 1st Floor","10b","40m","0.4 - 6","南","atomarea_001.jpg","topo/atomarea_002.jpg"],
+["飛天","アトムエリア はごろも岩 1st Floor","10b","40m","0.4 - 6","南","topo/atomarea_001.jpg","topo/atomarea_002.jpg"],
 ["プルートゥ","アトムエリア はごろも岩 1st Floor","10c R","30m","不明","南西","topo/atomarea_001.jpg"],
 ["アトラス","アトムエリア はごろも岩 1st Floor","10b","20m","0.4 - 2","南","topo/atomarea_001.jpg"],
 ["コバルト","アトムエリア はごろも岩 1st Floor","10c R","20m","不明","南","topo/atomarea_001.jpg"],
@@ -104,7 +104,17 @@ const routes = [
 function render(list){
   const results=document.getElementById("results");
   results.innerHTML="";
+
   list.forEach(r=>{
+
+    const images = r.slice(6);
+
+    const imageHtml = images.map(img => `
+      <a href="${img}" target="_blank">
+        <img src="${img}">
+      </a>
+    `).join("");
+
     results.innerHTML+=`
       <div class="card">
         <h2>${r[0]}</h2>
@@ -115,9 +125,7 @@ function render(list){
           <b>推奨カム:</b> ${r[4]}　
           <b>向き:</b> ${r[5]}
         </p>
-        <a href="${r[6]}" target="_blank">
-          <img src="${r[6]}">
-        </a>
+        ${imageHtml}
       </div>`;
   });
 }
