@@ -122,33 +122,55 @@ function render(list){
   });
 }
 
+function normalize(text) {
+return String(text)
+.toLowerCase()
+
+```
+// 全角英数字→半角
+.replace(/[Ａ-Ｚａ-ｚ０-９]/g, s =>
+  String.fromCharCode(s.charCodeAt(0) - 0xFEE0)
+)
+
+// 全角シャープ
+.replace(/＃/g, "#")
+
+// 全角m
+.replace(/ｍ/g, "m")
+.replace(/Ｍ/g, "m")
+
+// 全角スペース
+.replace(/　/g, " ")
+
+// スペース除去
+.replace(/\s+/g, "");
+```
+
+}
+
 render(routes);
 
 document.getElementById("search").addEventListener("input", function(){
 
-  const kw = this.value
-  .trim()
-  .toLowerCase()
-  .replace(/[０-９]/g, s =>
-    String.fromCharCode(s.charCodeAt(0) - 0xFEE0)
-  )
-  .replace(/＃/g, "#")
-  .replace(/ｍ/g, "m");
-  const filtered = routes.filter(r => {
-    const name = r[0].toLowerCase();
-    const area = r[1].toLowerCase();
-    const grade = r[2].toLowerCase();
-    const length = r[3].toLowerCase();
-    const cam = r[4].toLowerCase();
-    const direction = r[5].toLowerCase();
+const kw = normalize(this.value);
 
-    // 何も入力していない時は全部表示
-    if (kw === "") return true;
+const filtered = routes.filter(r => {
 
-    // #6 のように入力したら、カムサイズだけ検索
-    if (kw.startsWith("#")) {
+```
+const name = normalize(r[0]);
+const area = normalize(r[1]);
+const grade = normalize(r[2]);
+const length = normalize(r[3]);
+const cam = normalize(r[4]);
+const direction = normalize(r[5]);
 
-  const target = parseFloat(kw.replace("#",""));
+// 空欄なら全部表示
+if (kw === "") return true;
+
+// #6 などのカム検索
+if (kw.startsWith("#")) {
+
+  const target = parseFloat(kw.replace("#", ""));
 
   const numbers = cam.match(/\d+(\.\d+)?/g);
 
@@ -161,22 +183,26 @@ document.getElementById("search").addEventListener("input", function(){
   return maxCam >= target;
 }
 
-    // 20m のように入力したら、長さだけ検索
-    if (kw.endsWith("m")) {
-      return length === kw;
-    }
+// 20m などの長さ検索
+if (kw.endsWith("m")) {
+  return length === kw;
+}
 
-    // それ以外は、ルート名・エリア名・グレード・向きだけ検索
-    return (
-      name.includes(kw) ||
-      area.includes(kw) ||
-      grade.includes(kw) ||
-      direction.includes(kw)
-    );
-  });
+// 通常検索
+return (
+  name.includes(kw) ||
+  area.includes(kw) ||
+  grade.includes(kw) ||
+  direction.includes(kw)
+);
+```
 
-  render(filtered);
 });
+
+render(filtered);
+
+});
+
   
 </script>
 
