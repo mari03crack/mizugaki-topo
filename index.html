@@ -125,10 +125,42 @@ function render(list){
 render(routes);
 
 document.getElementById("search").addEventListener("input", function(){
-  const kw=this.value.toLowerCase();
-  const filtered=routes.filter(r=>r.join(" ").toLowerCase().includes(kw));
+  const kw = this.value.trim().toLowerCase();
+
+  const filtered = routes.filter(r => {
+    const name = r[0].toLowerCase();
+    const area = r[1].toLowerCase();
+    const grade = r[2].toLowerCase();
+    const length = r[3].toLowerCase();
+    const cam = r[4].toLowerCase();
+    const direction = r[5].toLowerCase();
+
+    // 何も入力していない時は全部表示
+    if (kw === "") return true;
+
+    // #6 のように入力したら、カムサイズだけ検索
+    if (kw.startsWith("#")) {
+      const camNumber = kw.replace("#", "");
+      return cam.includes(camNumber);
+    }
+
+    // 20m のように入力したら、長さだけ検索
+    if (kw.endsWith("m")) {
+      return length === kw;
+    }
+
+    // それ以外は、ルート名・エリア名・グレード・向きだけ検索
+    return (
+      name.includes(kw) ||
+      area.includes(kw) ||
+      grade.includes(kw) ||
+      direction.includes(kw)
+    );
+  });
+
   render(filtered);
 });
+  
 </script>
 
 </body>
