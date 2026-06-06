@@ -126,7 +126,7 @@ function normalize(text) {
 return String(text)
 .toLowerCase()
 
-```
+
 // 全角英数字→半角
 .replace(/[Ａ-Ｚａ-ｚ０-９]/g, s =>
   String.fromCharCode(s.charCodeAt(0) - 0xFEE0)
@@ -144,7 +144,7 @@ return String(text)
 
 // スペース除去
 .replace(/\s+/g, "");
-```
+
 
 }
 
@@ -156,7 +156,7 @@ const kw = normalize(this.value);
 
 const filtered = routes.filter(r => {
 
-```
+
 const name = normalize(r[0]);
 const area = normalize(r[1]);
 const grade = normalize(r[2]);
@@ -195,7 +195,7 @@ return (
   grade.includes(kw) ||
   direction.includes(kw)
 );
-```
+
 
 });
 
