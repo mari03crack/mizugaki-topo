@@ -147,9 +147,19 @@ document.getElementById("search").addEventListener("input", function(){
 
     // #6 のように入力したら、カムサイズだけ検索
     if (kw.startsWith("#")) {
-      const camNumber = kw.replace("#", "");
-      return cam.includes(camNumber);
-    }
+
+  const target = parseFloat(kw.replace("#",""));
+
+  const numbers = cam.match(/\d+(\.\d+)?/g);
+
+  if (!numbers) return false;
+
+  const values = numbers.map(Number);
+
+  const maxCam = Math.max(...values);
+
+  return maxCam >= target;
+}
 
     // 20m のように入力したら、長さだけ検索
     if (kw.endsWith("m")) {
