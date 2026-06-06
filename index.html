@@ -183,9 +183,23 @@ if (kw.startsWith("#")) {
   return maxCam >= target;
 }
 
-// 20m などの長さ検索
+// 長さ検索
 if (kw.endsWith("m")) {
-  return length === kw;
+
+  const target = parseInt(kw);
+
+  const routeLength = parseInt(length);
+
+  if (isNaN(target) || isNaN(routeLength)) {
+    return false;
+  }
+
+  const minLength = Math.max(1, target - 4);
+
+  return (
+    routeLength >= minLength &&
+    routeLength <= target
+  );
 }
 
 // 通常検索
