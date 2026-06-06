@@ -125,8 +125,15 @@ function render(list){
 render(routes);
 
 document.getElementById("search").addEventListener("input", function(){
-  const kw = this.value.trim().toLowerCase();
 
+  const kw = this.value
+  .trim()
+  .toLowerCase()
+  .replace(/[０-９]/g, s =>
+    String.fromCharCode(s.charCodeAt(0) - 0xFEE0)
+  )
+  .replace(/＃/g, "#")
+  .replace(/ｍ/g, "m");
   const filtered = routes.filter(r => {
     const name = r[0].toLowerCase();
     const area = r[1].toLowerCase();
