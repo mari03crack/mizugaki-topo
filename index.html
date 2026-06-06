@@ -4,130 +4,130 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>瑞牆ワイドクラックトポ</title>
-
 <style>
-body {
-  font-family: sans-serif;
-  max-width: 1000px;
-  margin: auto;
-  padding: 20px;
-  background: #fafafa;
-}
-
-h1 {
-  font-size: 28px;
-}
-
-#search {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  margin: 20px 0;
-  box-sizing: border-box;
-}
-
-.card {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 20px;
-}
-
-.card img {
-  max-width: 100%;
-  border: 1px solid #ddd;
-}
-
-.card h2 {
-  margin-top: 0;
-}
+body{font-family:sans-serif;max-width:1000px;margin:auto;padding:20px;background:#fafafa}
+input{width:100%;padding:12px;font-size:16px;margin:20px 0;box-sizing:border-box}
+.card{background:white;border:1px solid #ddd;border-radius:10px;padding:15px;margin-bottom:15px}
+.card img{max-width:260px;border:1px solid #ddd}
+.small{color:#555}
 </style>
 </head>
-
 <body>
 
 <h1>瑞牆ワイドクラックトポ</h1>
+<p>ルート名・エリア名・グレード・カムサイズで検索できます。</p>
 
-<p>ルート名・エリア名・グレード・カムサイズなどで検索できます。</p>
-
-<input type="text" id="search" placeholder="例：#6、5.10、roof、001">
+<input id="search" placeholder="例：Heaven、#6、10d、アトム、チムニー">
 
 <div id="results"></div>
 
 <script>
-const pages = [
-  {
-    title: "001",
-    area: "瑞牆",
-    grade: "",
-    tags: "001 topo",
-    image: "topo/001.jpg"
-  },
-  {
-    title: "002",
-    area: "瑞牆",
-    grade: "",
-    tags: "002 topo",
-    image: "topo/002.jpg"
-  },
-  {
-    title: "003",
-    area: "瑞牆",
-    grade: "",
-    tags: "003 topo",
-    image: "topo/003.jpg"
-  },
-  {
-    title: "004",
-    area: "瑞牆",
-    grade: "",
-    tags: "004 topo",
-    image: "topo/004.jpg"
-  },
-  {
-    title: "005",
-    area: "瑞牆",
-    grade: "",
-    tags: "005 topo",
-    image: "topo/005.jpg"
-  }
+const routes = [
+["かぐや","アトムエリア はごろも岩 1st Floor","10d","40m","0.2 - 4","南","topo/001.jpg"],
+["飛天","アトムエリア はごろも岩 1st Floor","10b","40m","0.4 - 6","南","topo/001.jpg"],
+["プルートゥ","アトムエリア はごろも岩 1st Floor","10c R","30m","不明","南西","topo/001.jpg"],
+["アトラス","アトムエリア はごろも岩 1st Floor","10b","20m","0.4 - 2","南","topo/001.jpg"],
+["コバルト","アトムエリア はごろも岩 1st Floor","10c R","20m","不明","南","topo/001.jpg"],
+["アトム","アトムエリア はごろも岩 1st Floor","10a","20m","3 - 5","南","topo/001.jpg"],
+["ウラン","アトムエリア はごろも岩 1st Floor","10a R","30m","5 - 6(5 - 8)","南","topo/001.jpg"],
+["ひょうたんつぎ","アトムエリア はごろも岩 1st Floor","10b","20m","不明","北","topo/001.jpg"],
+
+["あかつき","アトムエリア はごろも岩 2nd Floor","10d","15m","0.5 - 6","西","topo/001.jpg"],
+["お茶の水博士","アトムエリア はごろも岩 2nd Floor","5.9","15m","5 - 6","東","topo/001.jpg"],
+["Heaven's Door","アトムエリア はごろも岩 2nd Floor","10d","20m","0.4 - 6","南","topo/001.jpg"],
+["天馬博士","アトムエリア はごろも岩 2nd Floor","5.8","10m","0.4 - 6","東","topo/001.jpg"],
+["リン","アトムエリア はごろも岩 2nd Floor","10a","10m","0.75 - 4","北","topo/001.jpg"],
+["Heaven's Bell","アトムエリア はごろも岩 2nd Floor","5.9","20m","0.5 - 4","南","topo/001.jpg"],
+["Heaven's Corner","アトムエリア はごろも岩 2nd Floor","10a","15m","0.5 - 3","南","topo/001.jpg"],
+["Heaven's Cave","アトムエリア はごろも岩 2nd Floor","10d","30m","1 - 6","西","topo/001.jpg"],
+["Heaven's Harp","アトムエリア はごろも岩 2nd Floor","10d","5m","2 - 4","西","topo/001.jpg"],
+["バゲット","アトムエリア はごろも岩 2nd Floor","10a","6m","5 - 4","南","topo/001.jpg"],
+["カンパーニュ","アトムエリア はごろも岩 2nd Floor","5.9","8m","0.4 - 7","南","topo/001.jpg"],
+
+["なごり雪","アトムエリア アトムウォール北面 1st Floor","5.9","10m","1 - 6","東","topo/001.jpg"],
+["ホワイトテラス","アトムエリア アトムウォール北面 2nd Floor","5.9","15m","0.75 - 4","西","topo/001.jpg"],
+["チムニーコアラ","アトムエリア アトムウォール北面 2nd Floor","5.8","20m","0.75 - 4","北","topo/001.jpg"],
+["ブラックジャック","アトムエリア アトムウォール北面 2nd Floor","10d","25m","0.4 - 4","北","topo/001.jpg"],
+["裏ブラックジャック","アトムエリア アトムウォール南面","10b","15m","3 - 4","南","topo/001.jpg"],
+["モグラナイ","アトムエリア アトムウォール南面","5.8","10m","1 - 4","南","topo/001.jpg"],
+["ピノコ","アトムエリア アトムウォール南面","5.9","10m","3 - 5","南","topo/001.jpg"],
+["土竜（もぐら）","アトムエリア アトムウォール南面","11a","15m","3 - 6","南","topo/001.jpg"],
+
+["太陽のかけら","七面沢上流域エリア","11a","20m","0.5 - 6","西","topo/001.jpg"],
+["ライト兄弟","七面沢上流域エリア","10c","20m","3 - 5","北","topo/001.jpg"],
+["見返り美人","七面沢上流域エリア","5.8 R","15m","6","南","topo/001.jpg"],
+["しろくまの逆襲","七面沢上流域エリア","10c","10m","3 - 6","北","topo/001.jpg"],
+["くまモンの休日","七面沢上流域エリア","10b","10m","2 - 4","北","topo/001.jpg"],
+["ふきのとう","七面沢上流域エリア","10b","20m","0.75 - 5","南西","topo/001.jpg"],
+["くまのプーさん","七面沢上流域エリア","10b","10m","5 - 6","南東","topo/001.jpg"],
+["チョップスティックス","七面沢上流域エリア","10b","20m","0.4 - 3","北","topo/001.jpg"],
+["The Gift","七面沢上流域エリア","11d","25m","0.3 - 1","南","topo/001.jpg"],
+["キャップロック","七面沢上流域エリア","5.9","10m","0.75 - 4","北西","topo/001.jpg"],
+["Graphic Museum","七面沢上流域エリア","5.7","10m","4 - 6","北","topo/001.jpg"],
+["パプリカ","七面沢上流域エリア 岩小屋付近","10b","5m","0.4 - 3","北西","topo/001.jpg"],
+["マリーゴールド","七面沢上流域エリア 岩小屋付近","11c","10m","0.1 - 0.75, ナッツ","北","topo/001.jpg"],
+["ルリビタキ","七面沢上流域エリア","10a","10m","0.4, 0.5, 6","南東","topo/001.jpg"],
+["クリボー","七面沢上流域エリア","10a","20m","0.5 - 3","南","topo/001.jpg"],
+["トイストーリー","七面沢上流域エリア","10b","25m","0.5 - 6","北","topo/001.jpg"],
+
+["クッキーモンスター","リアス式エリア 1ルンゼ","10a","25m","0.5 - 6","北西","topo/001.jpg"],
+["カーテンコール","リアス式エリア 3ルンゼ","12a","20m","0.5 - 6","北西","topo/001.jpg"],
+["コーラスライン","リアス式エリア 3ルンゼ","11b","20m","2 - 6","北西","topo/001.jpg"],
+["Catch me if you can","リアス式エリア 3ルンゼ","12d","20m","0.4 - 3","北西","topo/001.jpg"],
+
+["イプシロン","イプシロンエリア","11c","10m","4 - 6","西","topo/001.jpg"],
+["ゲジヒト","イプシロンエリア","5.7","10m","1 - 4","西","topo/001.jpg"],
+["ノース2号","イプシロンエリア","10c","10m","0.4 - 2","西","topo/001.jpg"],
+
+["瑞牆ロケット","文殊エリア 文殊岩 1階","11a","45m","0.4 - 6","西","topo/001.jpg"],
+["アストロノーツ","文殊エリア 文殊岩 1階","10a","20m","0.4 - 5","南","topo/001.jpg"],
+["バムライフ","文殊エリア 文殊岩 2階","10d","25m","0.3 - 1","北北西","topo/001.jpg"],
+
+["ちびまる","地獄周辺","5.8","15m","1 - 6","西","topo/001.jpg"],
+["Picasso","地獄周辺","11a","5m","0.75 - 1","西","topo/001.jpg"],
+
+["銀の匙","黄金狂周辺","5.8","15m","6 - 8","西","topo/001.jpg"],
+["小さじ","黄金狂周辺","5.6","4m","5 - 6","北","topo/001.jpg"],
+["はやぶさ2","黄金狂周辺","11c","20m","0.75 - 5","西北西","topo/001.jpg"],
+["コハク","黄金狂周辺","10c","20m","0.75 - 4","西北西","topo/001.jpg"],
+["クロム","黄金狂周辺","11a","40m","0.4 - 5","西北西","topo/001.jpg"],
+["でかまる","黄金狂周辺","10a","13m","0.75 - 6","東北東","topo/001.jpg"],
+["黒曜石","黄金狂周辺","10c","15m","0.75 - 6","西北西","topo/001.jpg"],
+["登攀の歌","黄金狂周辺","10a","15m","0.4 - 6","西北西","topo/001.jpg"],
+["登攀の歌Z（ゼット）","黄金狂周辺","10d","30m","0.4 - 6","西北西","topo/001.jpg"],
+
+["Life is beautiful","奥地獄","10a","25m","0.5 - 5","西","topo/001.jpg"],
+["回廊脇のワイド","クラック地獄エリア","10a","10m","6 - 8","東","topo/001.jpg"],
+["ニーチェ","クラック地獄エリア","10d","25m","0.4 - 5","南西","topo/001.jpg"]
 ];
 
-function showPages(list) {
-  const results = document.getElementById("results");
-  results.innerHTML = "";
-
-  list.forEach(page => {
-    results.innerHTML += `
+function render(list){
+  const results=document.getElementById("results");
+  results.innerHTML="";
+  list.forEach(r=>{
+    results.innerHTML+=`
       <div class="card">
-        <h2>${page.title}</h2>
+        <h2>${r[0]}</h2>
         <p>
-          <b>エリア:</b> ${page.area}<br>
-          <b>グレード:</b> ${page.grade}<br>
-          <b>タグ:</b> ${page.tags}
+          <b>エリア:</b> ${r[1]}<br>
+          <b>グレード:</b> ${r[2]}　
+          <b>長さ:</b> ${r[3]}<br>
+          <b>推奨カム:</b> ${r[4]}　
+          <b>向き:</b> ${r[5]}
         </p>
-        <a href="${page.image}" target="_blank">
-          <img src="${page.image}" alt="${page.title}">
+        <a href="${r[6]}" target="_blank">
+          <img src="${r[6]}">
         </a>
-      </div>
-    `;
+      </div>`;
   });
 }
 
-showPages(pages);
+render(routes);
 
-document.getElementById("search").addEventListener("input", function() {
-  const keyword = this.value.toLowerCase();
-
-  const filtered = pages.filter(page =>
-    page.title.toLowerCase().includes(keyword) ||
-    page.area.toLowerCase().includes(keyword) ||
-    page.grade.toLowerCase().includes(keyword) ||
-    page.tags.toLowerCase().includes(keyword)
-  );
-
-  showPages(filtered);
+document.getElementById("search").addEventListener("input", function(){
+  const kw=this.value.toLowerCase();
+  const filtered=routes.filter(r=>r.join(" ").toLowerCase().includes(kw));
+  render(filtered);
 });
 </script>
 
